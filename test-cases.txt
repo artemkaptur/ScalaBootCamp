@@ -1,1 +1,7 @@
-texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s KhKd 5d6d
+texas-holdem 5cKs4h8s7s As9s KhKd
+texas-holdem 4cKs5h8s7s 6hKd As9h
+texas-holdem 5cKs4s8sKc KhKd As9s
+texas-holdem 4cKs4h8s7s KhKd As9s
+texas-holdem 5cKs4h8s7s KhKd 5s9c
+texas-holdem 5cKs4h8s7s 5hKd 5s9c
+wrong-game-type 5cKs4h8sKc KhKd As9s
