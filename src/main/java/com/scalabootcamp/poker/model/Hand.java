@@ -14,4 +14,5 @@ import java.util.List;
 public class Hand {
     private List<Card> cards;
     private HandStrength handStrength;
+    private int combinationStrength;
 }

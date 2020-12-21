@@ -31,25 +31,35 @@ public final class SortingHandsHelper {
             List<Card> allCards = new ArrayList<>();
             allCards.addAll(cardsOnTable);
             allCards.addAll(h.getCards());
-            h.setHandStrength(evaluateHandStrength(allCards));
+            h.setHandStrength(evaluateHandStrength(allCards, h));
         });
         hands.sort((Hand h1, Hand h2) -> {
             if (h1.getHandStrength().getValue() > h2.getHandStrength().getValue()) {
                 return 1;
-            } else {
+            } else if (h1.getHandStrength().getValue() == h2.getHandStrength().getValue()) {
+                if (h1.getCombinationStrength() > h2.getCombinationStrength())
+                    return 1;
+                else return -1;
+            } else
                 return -1;
-            }
         });
         List<String> sortedHands = new ArrayList<>();
-        for (Hand hand : hands) {
+        for (int i = 0; i < hands.size(); i++) {
             StringBuilder sb = new StringBuilder();
-            sb.append(hand.getCards().get(0).getValue());
-            sb.append(hand.getCards().get(0).getSuit());
-            sb.append(hand.getCards().get(1).getValue());
-            sb.append(hand.getCards().get(1).getSuit());
+            sb.append(hands.get(i).getCards().get(0).getValue());
+            sb.append(hands.get(i).getCards().get(0).getSuit());
+            sb.append(hands.get(i).getCards().get(1).getValue());
+            sb.append(hands.get(i).getCards().get(1).getSuit());
+            if (i != hands.size() - 1) {
+                if (hands.get(i).getHandStrength() == hands.get(i + 1).getHandStrength() &&
+                        hands.get(i).getCombinationStrength() == hands.get(i + 1).getCombinationStrength()) {
+                    sb.append("=");
+                }
+            }
             sortedHands.add(sb.toString());
         }
-        return String.join(" ", sortedHands);
+
+        return String.join(" ", sortedHands).replaceAll("= ", "=");
     }
 
     public static String sortHandsForFiveCardDraw(TestCase testCase) {
@@ -63,13 +73,16 @@ public final class SortingHandsHelper {
                             add(new Card(h.charAt(8), h.charAt(9)));
                         }}).build())
                 .collect(toList());
-        hands.forEach(h -> h.setHandStrength(evaluateHandStrength(h.getCards())));
+        hands.forEach(h -> h.setHandStrength(evaluateHandStrength(h.getCards(), h)));
         hands.sort((Hand h1, Hand h2) -> {
             if (h1.getHandStrength().getValue() > h2.getHandStrength().getValue()) {
                 return 1;
-            } else {
+            } else if (h1.getHandStrength().getValue() == h2.getHandStrength().getValue()) {
+                if (h1.getCombinationStrength() > h2.getCombinationStrength())
+                    return 1;
+                else return -1;
+            } else
                 return -1;
-            }
         });
         List<String> sortedHands = new ArrayList<>();
         for (Hand hand : hands) {
