@@ -1,10 +1,8 @@
 package com.scalabootcamp.poker;
 
 import com.scalabootcamp.poker.model.Card;
-import com.scalabootcamp.poker.model.Hand;
 import com.scalabootcamp.poker.model.HandStrength;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,10 +25,7 @@ public final class HandStrengthEvaluator {
     private HandStrengthEvaluator() {
     }
 
-    public static HandStrength evaluateHandStrength(Hand h, List<Card> cardsOnTable) {
-        List<Card> allCards = new ArrayList<>();
-        allCards.addAll(cardsOnTable);
-        allCards.addAll(h.getCards());
+    public static HandStrength evaluateHandStrength(List<Card> allCards) {
         if (isAStraightFlush(allCards)) {
             return STRAIGHT_FLUSH;
         } else if (isAFourOfAKind(allCards)) {
