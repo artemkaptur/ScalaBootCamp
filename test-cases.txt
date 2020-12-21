@@ -24,6 +24,7 @@ texas-holdem KdKcAdQdJd Th6s 8h7s
 texas-holdem KdKcAdQdJd Kh6s Jh7s
 texas-holdem KdKcAdQdJd Kh6s 8h7s
 texas-holdem KdKcAdQdJd Jh6s 8h7s
+texas-holdem 2d3c4d5d8d Ah9s 8h8s
 five-card-draw 7h4s4h8c9h Tc5h6dAc5c Kd9sAs3cQs Ah9d6s2cKh 4c8h2h6c9c
 five-card-draw ThJhQhKhAh KcKdKs5c5s 2d3s4s5h6s 8h8d8s2c3h 4c8h2h6c9c
 wrong-game-type 5cKs4h8sKc KhKd As9s

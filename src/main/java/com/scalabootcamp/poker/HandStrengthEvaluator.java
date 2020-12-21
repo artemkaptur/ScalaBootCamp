@@ -114,6 +114,7 @@ public final class HandStrengthEvaluator {
     }
 
     private static List<Integer> getSortedValues(List<Card> allCards) {
+        List<Integer> values = allCards.stream().map(c -> Character.getNumericValue(c.getValue())).collect(toList());
         return allCards.stream()
                 .map(Card::getValue)
                 .map(v -> {
@@ -125,9 +126,15 @@ public final class HandStrengthEvaluator {
                         return 12;
                     else if (v.equals('K'))
                         return 13;
+                    else if (v.equals('A') &&
+                            values.contains(2) &&
+                            values.contains(3) &&
+                            values.contains(4) &&
+                            values.contains(5))
+                        return 1;
                     else if (v.equals('A'))
                         return 14;
-                    else return Integer.valueOf(v);
+                    else return Character.getNumericValue(v);
                 })
                 .sorted()
                 .collect(toList());
