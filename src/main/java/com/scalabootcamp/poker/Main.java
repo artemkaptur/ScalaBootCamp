@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static List<String> getSolutionsForEachHand(List<String> testCasesStrings) {
-        List<TestCase> testCases = testCasesStrings.stream()
+        List<TestCase> testCases = testCasesStrings.parallelStream()
                 .map(testCase -> {
                     List<String> temp = Arrays.asList(testCase.split(" "));
                     String gameType = temp.get(0);
@@ -49,7 +49,7 @@ public class Main {
                     }
                 })
                 .collect(toList());
-        return testCases.stream().map(Main::getSolution).collect(toList());
+        return testCases.parallelStream().map(Main::getSolution).collect(toList());
     }
 
     private static String getSolution(TestCase testCase) {
