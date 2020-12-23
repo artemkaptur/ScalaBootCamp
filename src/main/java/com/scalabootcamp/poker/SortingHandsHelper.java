@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.scalabootcamp.poker.HandStrengthEvaluator.evaluateHandStrength;
 import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public final class SortingHandsHelper {
@@ -20,6 +21,16 @@ public final class SortingHandsHelper {
             .thenComparingInt(Hand::getThirdKicker)
             .thenComparingInt(Hand::getFourthKicker)
             .thenComparingInt(Hand::getFifthKicker);
+    private static final Comparator<Hand> handComparatorWithAlphabeticalOrder = handComparator
+            .thenComparing((h1, h2) -> {
+                String h1String = h1.getCards().stream()
+                        .map(c -> String.valueOf(c.getValue()) + c.getSuit())
+                        .collect(joining());
+                String h2String = h2.getCards().stream()
+                        .map(c -> String.valueOf(c.getValue()) + c.getSuit())
+                        .collect(joining());
+                return h1String.compareTo(h2String);
+            });
 
     private SortingHandsHelper() {
     }
@@ -36,7 +47,7 @@ public final class SortingHandsHelper {
             allCards.addAll(h.getCards());
             evaluateHandStrength(h, allCards);
         });
-        hands.sort(handComparator);
+        hands.sort(handComparatorWithAlphabeticalOrder);
         return sortedHandsToString(hands);
     }
 
@@ -44,7 +55,7 @@ public final class SortingHandsHelper {
     public static String sortHandsForFiveCardDraw(TestCase testCase) {
         List<Hand> hands = getHandsFromTestCase(testCase);
         hands.forEach(h -> evaluateHandStrength(h, h.getCards()));
-        hands.sort(handComparator);
+        hands.sort(handComparatorWithAlphabeticalOrder);
         return sortedHandsToString(hands);
     }
 
