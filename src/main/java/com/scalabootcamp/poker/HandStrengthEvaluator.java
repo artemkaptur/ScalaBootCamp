@@ -43,10 +43,8 @@ public final class HandStrengthEvaluator {
         } else if (isPair(allCards, hand)) {
             hand.setHandStrength(PAIR.getValue());
         } else {
-            hand.setCombinationStrength(getSortedValues(hand.getCards()).stream()
-                    .distinct()
-                    .max(Integer::compare).get());
             hand.setHandStrength(HIGH_CARD.getValue());
+            setKickersForTheHighCardCombination(hand, hand.getCards());
         }
     }
 
@@ -61,8 +59,7 @@ public final class HandStrengthEvaluator {
         if (countOfMostCommonSuit >= 5) {
             Character flushSuit = getMostCommonSuit(suits).getKey();
             List<Card> handCardsWithFlush = hand.getCards().stream().filter(c -> c.getSuit().equals(flushSuit)).collect(toList());
-            List<Integer> values = getSortedValues(handCardsWithFlush).stream().distinct().collect(toList());
-            hand.setCombinationStrength(values.stream().max(Integer::compare).get());
+            setKickersForTheHighCardCombination(hand, handCardsWithFlush);
             return true;
         }
         return false;
@@ -90,6 +87,7 @@ public final class HandStrengthEvaluator {
         List<Integer> values = getSortedValues(allCards);
         if (getMostCommonValue(values).getValue() >= 4) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
+            setKickers(hand);
             return true;
         }
         return false;
@@ -116,6 +114,7 @@ public final class HandStrengthEvaluator {
         List<Integer> values = getSortedValues(allCards);
         if (getMostCommonValue(values).getValue() >= 3) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
+            setKickers(hand);
             return true;
         }
         return false;
@@ -133,6 +132,7 @@ public final class HandStrengthEvaluator {
                 if (hand.getCombinationStrength() < getMostCommonValue(values).getKey()) {
                     hand.setCombinationStrength(getMostCommonValue(values).getKey());
                 }
+                setKickers(hand);
                 return true;
             }
         }
@@ -143,6 +143,7 @@ public final class HandStrengthEvaluator {
         List<Integer> values = getSortedValues(allCards);
         if (getMostCommonValue(values).getValue() >= 2) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
+            setKickers(hand);
             return true;
         }
         return false;
@@ -187,5 +188,42 @@ public final class HandStrengthEvaluator {
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue()).get();
+    }
+
+    private static void setKickersForTheHighCardCombination(Hand hand, List<Card> cards) {
+        List<Integer> kickers = getSortedValues(cards).stream()
+                .distinct()
+                .sorted(Integer::compareTo)
+                .collect(toList());
+        for (int i = kickers.size() - 1; i >= 0; i--) {
+            if (i == 0)
+                hand.setFifthKicker(kickers.get(i));
+            if (i == 1)
+                hand.setFourthKicker(kickers.get(i));
+            if (i == 2)
+                hand.setThirdKicker(kickers.get(i));
+            if (i == 3)
+                hand.setSecondKicker(kickers.get(i));
+            if (i == 4)
+                hand.setCombinationStrength(kickers.get(i));
+        }
+    }
+
+    private static void setKickers(Hand hand) {
+        List<Integer> kickers = getSortedValues(hand.getCards()).stream()
+                .distinct()
+                .filter(v -> !v.equals(hand.getCombinationStrength()))
+                .sorted(Integer::compareTo)
+                .collect(toList());
+        for (int i = kickers.size() - 1; i >= 0; i--) {
+            if (i == 1)
+                hand.setFifthKicker(kickers.get(i));
+            if (i == 2)
+                hand.setFourthKicker(kickers.get(i));
+            if (i == 3)
+                hand.setThirdKicker(kickers.get(i));
+            if (i == 4)
+                hand.setSecondKicker(kickers.get(i));
+        }
     }
 }

@@ -15,4 +15,8 @@ public class Hand {
     private List<Card> cards;
     private int handStrength;
     private int combinationStrength;
+    private int secondKicker;
+    private int thirdKicker;
+    private int fourthKicker;
+    private int fifthKicker;
 }

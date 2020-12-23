@@ -15,7 +15,11 @@ import static java.util.stream.Collectors.toList;
 public final class SortingHandsHelper {
 
     private static final Comparator<Hand> handComparator = comparingInt(Hand::getHandStrength)
-            .thenComparingInt(Hand::getCombinationStrength);
+            .thenComparingInt(Hand::getCombinationStrength)
+            .thenComparingInt(Hand::getSecondKicker)
+            .thenComparingInt(Hand::getThirdKicker)
+            .thenComparingInt(Hand::getFourthKicker)
+            .thenComparingInt(Hand::getFifthKicker);
 
     private SortingHandsHelper() {
     }
@@ -68,8 +72,7 @@ public final class SortingHandsHelper {
                 sb.append(card.getSuit());
             }
             if (i != hands.size() - 1) {
-                if (hands.get(i).getHandStrength() == hands.get(i + 1).getHandStrength() &&
-                        hands.get(i).getCombinationStrength() == hands.get(i + 1).getCombinationStrength()) {
+                if (handComparator.compare(hands.get(i), hands.get(i + 1)) == 0) {
                     sb.append("=");
                 }
             }
