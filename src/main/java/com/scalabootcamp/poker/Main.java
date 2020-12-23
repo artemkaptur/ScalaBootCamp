@@ -38,7 +38,10 @@ public class Main {
                     String gameType = temp.get(0);
                     String cardsOnTable = temp.get(1);
                     if (!gameType.equals(FIVE_CARD_DRAW)) {
-                        return new TestCase(gameType, cardsOnTable, temp.subList(2, temp.size()));
+                        return TestCase.builder()
+                                .gameType(gameType)
+                                .cardsOnTable(cardsOnTable)
+                                .hands(temp.subList(2, temp.size())).build();
                     } else {
                         return TestCase.builder()
                                 .gameType(gameType)

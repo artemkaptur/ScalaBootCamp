@@ -2,7 +2,6 @@ package com.scalabootcamp.poker;
 
 import com.scalabootcamp.poker.model.Card;
 import com.scalabootcamp.poker.model.Hand;
-import com.scalabootcamp.poker.model.HandStrength;
 
 import java.util.List;
 import java.util.Map;
@@ -26,28 +25,28 @@ public final class HandStrengthEvaluator {
     private HandStrengthEvaluator() {
     }
 
-    public static HandStrength evaluateHandStrength(List<Card> allCards, Hand hand) {
+    public static void evaluateHandStrength(Hand hand, List<Card> allCards) {
         if (isAStraightFlush(allCards, hand)) {
-            return STRAIGHT_FLUSH;
+            hand.setHandStrength(STRAIGHT_FLUSH.getValue());
         } else if (isAFourOfAKind(allCards, hand)) {
-            return FOUR_OF_A_KIND;
+            hand.setHandStrength(FOUR_OF_A_KIND.getValue());
         } else if (isAFullHouse(allCards, hand)) {
-            return FULL_HOUSE;
+            hand.setHandStrength(FULL_HOUSE.getValue());
         } else if (isAFlush(allCards, hand)) {
-            return FLUSH;
+            hand.setHandStrength(FLUSH.getValue());
         } else if (isAStraight(allCards, hand)) {
-            return STRAIGHT;
+            hand.setHandStrength(STRAIGHT.getValue());
         } else if (isThreeOfAKind(allCards, hand)) {
-            return THREE_OF_A_KIND;
+            hand.setHandStrength(THREE_OF_A_KIND.getValue());
         } else if (isTwoPair(allCards, hand)) {
-            return TWO_PAIR;
+            hand.setHandStrength(TWO_PAIR.getValue());
         } else if (isPair(allCards, hand)) {
-            return PAIR;
+            hand.setHandStrength(PAIR.getValue());
         } else {
             hand.setCombinationStrength(getSortedValues(hand.getCards()).stream()
                     .distinct()
                     .max(Integer::compare).get());
-            return HIGH_CARD;
+            hand.setHandStrength(HIGH_CARD.getValue());
         }
     }
 
@@ -57,16 +56,10 @@ public final class HandStrengthEvaluator {
 
     private static boolean isAFlush(List<Card> allCards, Hand hand) {
         List<Character> suits = allCards.stream().map(Card::getSuit).collect(toList());
-        Long countOfMostCommonSuit = suits.stream().collect(groupingBy(Function.identity(), counting()))
-                .entrySet()
-                .stream()
-                .max(Map.Entry.comparingByValue()).get().getValue();
+        Long countOfMostCommonSuit = getMostCommonSuit(suits).getValue();
 
         if (countOfMostCommonSuit >= 5) {
-            Character flushSuit = suits.stream().collect(groupingBy(Function.identity(), counting()))
-                    .entrySet()
-                    .stream()
-                    .max(Map.Entry.comparingByValue()).get().getKey();
+            Character flushSuit = getMostCommonSuit(suits).getKey();
             List<Card> handCardsWithFlush = hand.getCards().stream().filter(c -> c.getSuit().equals(flushSuit)).collect(toList());
             List<Integer> values = getSortedValues(handCardsWithFlush).stream().distinct().collect(toList());
             hand.setCombinationStrength(values.stream().max(Integer::compare).get());
@@ -95,8 +88,8 @@ public final class HandStrengthEvaluator {
 
     private static boolean isAFourOfAKind(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getCountOfMostCommonValue(values).getValue() >= 4) {
-            hand.setCombinationStrength(getCountOfMostCommonValue(values).getKey());
+        if (getMostCommonValue(values).getValue() >= 4) {
+            hand.setCombinationStrength(getMostCommonValue(values).getKey());
             return true;
         }
         return false;
@@ -104,13 +97,13 @@ public final class HandStrengthEvaluator {
 
     private static boolean isAFullHouse(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getCountOfMostCommonValue(values).getValue() == 3) {
-            int combinationStrength = getCountOfMostCommonValue(values).getKey();
+        if (getMostCommonValue(values).getValue() == 3) {
+            int combinationStrength = getMostCommonValue(values).getKey();
             List<Integer> finalValues = values;
             values = values.stream()
-                    .filter(v -> !v.equals(getCountOfMostCommonValue(finalValues).getKey()))
+                    .filter(v -> !v.equals(getMostCommonValue(finalValues).getKey()))
                     .collect(toList());
-            if (getCountOfMostCommonValue(values).getValue() >= 2) {
+            if (getMostCommonValue(values).getValue() >= 2) {
                 hand.setCombinationStrength(combinationStrength);
                 return true;
             }
@@ -121,8 +114,8 @@ public final class HandStrengthEvaluator {
 
     private static boolean isThreeOfAKind(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getCountOfMostCommonValue(values).getValue() >= 3) {
-            hand.setCombinationStrength(getCountOfMostCommonValue(values).getKey());
+        if (getMostCommonValue(values).getValue() >= 3) {
+            hand.setCombinationStrength(getMostCommonValue(values).getKey());
             return true;
         }
         return false;
@@ -130,15 +123,15 @@ public final class HandStrengthEvaluator {
 
     private static boolean isTwoPair(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getCountOfMostCommonValue(values).getValue() == 2) {
-            hand.setCombinationStrength(getCountOfMostCommonValue(values).getKey());
+        if (getMostCommonValue(values).getValue() == 2) {
+            hand.setCombinationStrength(getMostCommonValue(values).getKey());
             List<Integer> finalValues = values;
             values = values.stream()
-                    .filter(v -> !v.equals(getCountOfMostCommonValue(finalValues).getKey()))
+                    .filter(v -> !v.equals(getMostCommonValue(finalValues).getKey()))
                     .collect(toList());
-            if (getCountOfMostCommonValue(values).getValue() == 2) {
-                if (hand.getCombinationStrength() < getCountOfMostCommonValue(values).getKey()) {
-                    hand.setCombinationStrength(getCountOfMostCommonValue(values).getKey());
+            if (getMostCommonValue(values).getValue() == 2) {
+                if (hand.getCombinationStrength() < getMostCommonValue(values).getKey()) {
+                    hand.setCombinationStrength(getMostCommonValue(values).getKey());
                 }
                 return true;
             }
@@ -148,8 +141,8 @@ public final class HandStrengthEvaluator {
 
     private static boolean isPair(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getCountOfMostCommonValue(values).getValue() >= 2) {
-            hand.setCombinationStrength(getCountOfMostCommonValue(values).getKey());
+        if (getMostCommonValue(values).getValue() >= 2) {
+            hand.setCombinationStrength(getMostCommonValue(values).getKey());
             return true;
         }
         return false;
@@ -182,8 +175,15 @@ public final class HandStrengthEvaluator {
                 .collect(toList());
     }
 
-    private static Map.Entry<Integer, Long> getCountOfMostCommonValue(List<Integer> values) {
+    private static Map.Entry<Integer, Long> getMostCommonValue(List<Integer> values) {
         return values.stream().collect(groupingBy(Function.identity(), counting()))
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue()).get();
+    }
+
+    private static Map.Entry<Character, Long> getMostCommonSuit(List<Character> suits) {
+        return suits.stream().collect(groupingBy(Function.identity(), counting()))
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue()).get();

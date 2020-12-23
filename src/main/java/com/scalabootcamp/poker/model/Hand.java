@@ -13,6 +13,6 @@ import java.util.List;
 @ToString
 public class Hand {
     private List<Card> cards;
-    private HandStrength handStrength;
+    private int handStrength;
     private int combinationStrength;
 }
