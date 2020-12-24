@@ -22,6 +22,11 @@ import static java.util.stream.Collectors.toList;
 
 public final class HandStrengthEvaluator {
 
+    private static final int COUNT_OF_CARDS_FOR_FLUSH = 5;
+    private static final int COUNT_OF_CARDS_FOR_FOUR_OF_A_KIND = 4;
+    private static final int COUNT_OF_CARDS_FOR_THREE_OF_A_KIND = 3;
+    private static final int COUNT_OF_CARDS_FOR_PAIR = 2;
+
     private HandStrengthEvaluator() {
     }
 
@@ -56,7 +61,7 @@ public final class HandStrengthEvaluator {
         List<Character> suits = allCards.stream().map(Card::getSuit).collect(toList());
         Long countOfMostCommonSuit = getMostCommonSuit(suits).getValue();
 
-        if (countOfMostCommonSuit >= 5) {
+        if (countOfMostCommonSuit >= COUNT_OF_CARDS_FOR_FLUSH) {
             Character flushSuit = getMostCommonSuit(suits).getKey();
             List<Card> handCardsWithFlush = hand.getCards().stream().filter(c -> c.getSuit().equals(flushSuit)).collect(toList());
             setKickersForTheHighCardCombination(hand, handCardsWithFlush);
@@ -67,25 +72,25 @@ public final class HandStrengthEvaluator {
 
     private static boolean isAStraight(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards).stream().distinct().collect(toList());
-        int i = 0;
-        for (int j = 0; j < values.size() - 1; j++) {
-            if (values.get(j + 1) - values.get(j) == 1) {
-                i++;
-                hand.setCombinationStrength(values.get(j + 1));
+        int countOfCardsForStraight = 0;
+        for (int counter = 0; counter < values.size() - 1; counter++) {
+            if (values.get(counter + 1) - values.get(counter) == 1) {
+                countOfCardsForStraight++;
+                hand.setCombinationStrength(values.get(counter + 1));
             } else {
-                if (i == 4) {
-                    hand.setCombinationStrength(values.get(j));
+                if (countOfCardsForStraight == 4) {
+                    hand.setCombinationStrength(values.get(counter));
                     return true;
                 }
-                i = 0;
+                countOfCardsForStraight = 0;
             }
         }
-        return i >= 4;
+        return countOfCardsForStraight >= 4;
     }
 
     private static boolean isAFourOfAKind(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getMostCommonValue(values).getValue() >= 4) {
+        if (getMostCommonValue(values).getValue() >= COUNT_OF_CARDS_FOR_FOUR_OF_A_KIND) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
             setKickers(hand);
             return true;
@@ -95,13 +100,13 @@ public final class HandStrengthEvaluator {
 
     private static boolean isAFullHouse(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getMostCommonValue(values).getValue() == 3) {
+        if (getMostCommonValue(values).getValue() == COUNT_OF_CARDS_FOR_THREE_OF_A_KIND) {
             int combinationStrength = getMostCommonValue(values).getKey();
             List<Integer> finalValues = values;
             values = values.stream()
                     .filter(v -> !v.equals(getMostCommonValue(finalValues).getKey()))
                     .collect(toList());
-            if (getMostCommonValue(values).getValue() >= 2) {
+            if (getMostCommonValue(values).getValue() >= COUNT_OF_CARDS_FOR_PAIR) {
                 hand.setCombinationStrength(combinationStrength);
                 return true;
             }
@@ -112,7 +117,7 @@ public final class HandStrengthEvaluator {
 
     private static boolean isThreeOfAKind(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getMostCommonValue(values).getValue() >= 3) {
+        if (getMostCommonValue(values).getValue() >= COUNT_OF_CARDS_FOR_THREE_OF_A_KIND) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
             setKickers(hand);
             return true;
@@ -122,13 +127,13 @@ public final class HandStrengthEvaluator {
 
     private static boolean isTwoPair(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getMostCommonValue(values).getValue() == 2) {
+        if (getMostCommonValue(values).getValue() == COUNT_OF_CARDS_FOR_PAIR) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
             List<Integer> finalValues = values;
             values = values.stream()
                     .filter(v -> !v.equals(getMostCommonValue(finalValues).getKey()))
                     .collect(toList());
-            if (getMostCommonValue(values).getValue() == 2) {
+            if (getMostCommonValue(values).getValue() == COUNT_OF_CARDS_FOR_PAIR) {
                 if (hand.getCombinationStrength() < getMostCommonValue(values).getKey()) {
                     hand.setCombinationStrength(getMostCommonValue(values).getKey());
                 }
@@ -141,7 +146,7 @@ public final class HandStrengthEvaluator {
 
     private static boolean isPair(List<Card> allCards, Hand hand) {
         List<Integer> values = getSortedValues(allCards);
-        if (getMostCommonValue(values).getValue() >= 2) {
+        if (getMostCommonValue(values).getValue() >= COUNT_OF_CARDS_FOR_PAIR) {
             hand.setCombinationStrength(getMostCommonValue(values).getKey());
             setKickers(hand);
             return true;
@@ -195,17 +200,17 @@ public final class HandStrengthEvaluator {
                 .distinct()
                 .sorted(Integer::compareTo)
                 .collect(toList());
-        for (int i = kickers.size() - 1; i >= 0; i--) {
-            if (i == 0)
-                hand.setFifthKicker(kickers.get(i));
-            if (i == 1)
-                hand.setFourthKicker(kickers.get(i));
-            if (i == 2)
-                hand.setThirdKicker(kickers.get(i));
-            if (i == 3)
-                hand.setSecondKicker(kickers.get(i));
-            if (i == 4)
-                hand.setCombinationStrength(kickers.get(i));
+        for (int counter = kickers.size() - 1; counter >= 0; counter--) {
+            if (counter == 0)
+                hand.setFifthKicker(kickers.get(counter));
+            if (counter == 1)
+                hand.setFourthKicker(kickers.get(counter));
+            if (counter == 2)
+                hand.setThirdKicker(kickers.get(counter));
+            if (counter == 3)
+                hand.setSecondKicker(kickers.get(counter));
+            if (counter == 4)
+                hand.setCombinationStrength(kickers.get(counter));
         }
     }
 
@@ -215,15 +220,15 @@ public final class HandStrengthEvaluator {
                 .filter(v -> !v.equals(hand.getCombinationStrength()))
                 .sorted(Integer::compareTo)
                 .collect(toList());
-        for (int i = kickers.size() - 1; i >= 0; i--) {
-            if (i == 1)
-                hand.setFifthKicker(kickers.get(i));
-            if (i == 2)
-                hand.setFourthKicker(kickers.get(i));
-            if (i == 3)
-                hand.setThirdKicker(kickers.get(i));
-            if (i == 4)
-                hand.setSecondKicker(kickers.get(i));
+        for (int counter = kickers.size() - 1; counter >= 0; counter--) {
+            if (counter == 1)
+                hand.setFifthKicker(kickers.get(counter));
+            if (counter == 2)
+                hand.setFourthKicker(kickers.get(counter));
+            if (counter == 3)
+                hand.setThirdKicker(kickers.get(counter));
+            if (counter == 4)
+                hand.setSecondKicker(kickers.get(counter));
         }
     }
 }

@@ -41,3 +41,4 @@ five-card-draw 7h4s4h8c9h Tc5h6dAc5c Kd9sAs3cQs Ah9d6s2cK 4c8h2h6c9c
 five-card-draw ThJhQhKhAh KcKdKs5c5s 2d3s4s5h6s !@#$%^&*() 4c8h2h6c9c
 texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s !"№; 5d6d
 texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s KhK 5d6d
+five-card-draw AsKsQsJs8h AdKdQdJd7h
