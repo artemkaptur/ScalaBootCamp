@@ -11,8 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.scalabootcamp.poker.businesslogic.PokerGame.CARDS_ON_TABLE_ALL_SYMBOLS;
-import static com.scalabootcamp.poker.model.GAME_TYPE.FIVE_CARD_DRAW;
-import static com.scalabootcamp.poker.model.GAME_TYPE.TEXAS_HOLDEM;
+import static com.scalabootcamp.poker.model.GameType.FIVE_CARD_DRAW;
+import static com.scalabootcamp.poker.model.GameType.TEXAS_HOLDEM;
 import static java.util.stream.Collectors.toList;
 
 public class Main {

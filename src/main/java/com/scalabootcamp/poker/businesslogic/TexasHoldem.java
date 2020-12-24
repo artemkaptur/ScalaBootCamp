@@ -7,7 +7,7 @@ import com.scalabootcamp.poker.model.TestCase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scalabootcamp.poker.HandStrengthEvaluator.evaluateHandStrength;
+import static com.scalabootcamp.poker.model.HandStrengthEvaluator.evaluateHandStrength;
 
 public class TexasHoldem extends PokerGame {
 

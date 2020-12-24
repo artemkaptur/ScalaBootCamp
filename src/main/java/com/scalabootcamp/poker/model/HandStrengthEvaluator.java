@@ -1,7 +1,4 @@
-package com.scalabootcamp.poker;
-
-import com.scalabootcamp.poker.model.Card;
-import com.scalabootcamp.poker.model.Hand;
+package com.scalabootcamp.poker.model;
 
 import java.util.List;
 import java.util.Map;
