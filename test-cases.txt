@@ -1,1 +1,44 @@
+texas-holdem KdKcAdQdJd TdAs KhKs
+texas-holdem KdKcAdQdJd TdAs KhAh
+texas-holdem KdKcAdQdJd TdAs QdJd
+texas-holdem KdKcAdQdJd TdAs ThAh
+texas-holdem KdKcAdQdJd TdAs Kh8h
+texas-holdem KdKcAdQdJd TdAs QhJh
+texas-holdem KdKcAdQdJd TdAs 7h8h
+texas-holdem KdKcAdQdJd KhKs AhAs
+texas-holdem KdKcAdQdJd KhKs 8dAs
+texas-holdem KdKcAdQdJd KhKs ThAs
+texas-holdem KdKcAdQdJd KhKs AhJs
+texas-holdem KdKcAdQdJd KhKs 7h8s
+texas-holdem KdQcAdQdJd KhKs ThAs
+texas-holdem KdQcAdQdJd KhKs 5hQs
+texas-holdem KdQcAdQdJd KhKs 7c8s
+texas-holdem KdQcAdQdJd KhKs KcAs
+texas-holdem KdKcAdQdJd 8dAs ThKs
+texas-holdem KdKcAdQdJd 8dAs 7hKs
+texas-holdem KdKcAdQdJd 8dAs Jh5s
+texas-holdem KdKcAdQdJd 8dAs 4h5s
+texas-holdem KdKcAdQdJd Th6s 8hKs
+texas-holdem KdKcAdQdJd Th6s 8hJs
+texas-holdem KdKcAdQdJd Th6s 8h7s
+texas-holdem KdKcAdQdJd Kh6s Jh7s
+texas-holdem KdKcAdQdJd Kh6s 8h7s
+texas-holdem KdKcAdQdJd Jh6s 8h7s
+texas-holdem 2d3c4d5d8d Ah9s 8h8s
+five-card-draw 7h4s4h8c9h Tc5h6dAc5c Kd9sAs3cQs Ah9d6s2cKh 4c8h2h6c9c
+five-card-draw ThJhQhKhAh KcKdKs5c5s 2d3s4s5h6s 8h8d8s2c3h 4c8h2h6c9c
+wrong-game-type 5cKs4h8sKc KhKd As9s
+texas-holdem KdKcAcAhJd AdAs KhKs
+texas-holdem Kd8cAc7hJd AdAs KhKs
+texas-holdem Kd8cAc7hJd Ad2s Kh3s
+texas-holdem KdKcAcAhJd Ad7s Kh8s
 texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s KhKd 5d6d
+testCaseWithoutAnySpaces
+only oneSpace
+texas-holdem KdKcAcAh AdAs KhKs
+texas-holdem !@#$%^&*() AdAs KhKs
+five-card-draw 7h4s4h8c9h Tc5h6dAc5c Kd9sAs3cQs Ah9d6s2cK 4c8h2h6c9c
+five-card-draw ThJhQhKhAh KcKdKs5c5s 2d3s4s5h6s !@#$%^&*() 4c8h2h6c9c
+texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s !"№; 5d6d
+texas-holdem 4cKs4h8s7s Ad4s Ac4d As9s KhK 5d6d
+five-card-draw AsKsQsJs8h AdKdQdJd7h
